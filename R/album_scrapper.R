@@ -1,26 +1,42 @@
+source("./R/constants.R")
 library(RSelenium)
+library(readr)
 
-remDr <- remoteDriver(port = 4445L)
-remDr$open()
+scrap_album <- function(year) {
+  remDr <- .open_remDr()
+  remDr$navigate(paste0(URL_ALBUMS, year))
+  element <- remDr$findElement(using = 'class', value = 'list_products')
 
-remDr$navigate("https://www.metacritic.com/browse/albums/score/metascore/year/filtered?sort=desc&year_selected=2019")
+  elemtxt <- element$getElementText()
 
-element <- remDr$findElement(using = 'class', value = 'list_products')
+  result <- strsplit(elemtxt[[1]],"\n")
+  return(result)
+}
 
-elemtxt <- element$getElementText()
+create_best_albums <- function(result_scrap) {
+  matrix <- matrix(matrix(unlist(result_scrap), ncol=5, byrow=T))
 
-result <- strsplit(elemtxt[[1]],"\n")
+  name <- matrix[1:100]
+  metascore <- matrix[101:200]
+  artist_name <- matrix[201:300]
+  user_score <- matrix[301:400]
+  release_date <- matrix[401:500]
 
-matrix <- matrix(matrix(unlist(result), ncol=5, byrow=T))
+  best_albums <- data.frame(name, metascore, artist_name, user_score, release_date)
+  return(best_albuns)
+}
 
-name <- matrix[1:100]
-metascore <- matrix[101:200]
-artist_name <- matrix[201:300]
-user_score <- matrix[301:400]
-release_date <- matrix[401:500]
+.open_remDr <- function() {
+  remDr <- remoteDriver(PORT)
+  result <- remDr$open()
+  return(result)
+}
 
-best_albums <- data.frame(name, metascore, artist_name, user_score, release_date)
+.close_remDr <- function(remDr) {
+  remDr$close()
+}
 
-readr::write_csv(best_albums, "data/best_albums.csv")
+create_table_best_albuns <- function(df_best_albums) {
+  write_csv(df_best_albums, "data/best_albums.csv")
+}
 
-remDr$close()
