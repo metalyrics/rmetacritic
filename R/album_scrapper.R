@@ -5,8 +5,8 @@ library(readr)
 scrap_album <- function(year) {
   remDr <- .open_remDr()
   remDr$navigate(paste0(URL_ALBUMS, year))
-  element <- remDr$findElement(using = 'class', value = 'list_products')
 
+  element <- remDr$findElement(using = 'class', value = 'list_products')
   elemtxt <- element$getElementText()
 
   result <- strsplit(elemtxt[[1]],"\n")
@@ -27,9 +27,9 @@ create_best_albums <- function(result_scrap) {
 }
 
 .open_remDr <- function() {
-  remDr <- remoteDriver(PORT)
+  remDr <- remoteDriver(port = PORT)
   result <- remDr$open()
-  return(result)
+  return(remDr)
 }
 
 .close_remDr <- function(remDr) {
