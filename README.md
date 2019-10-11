@@ -1,11 +1,32 @@
 # rmetacritic
 
-Baixe a imagem do navegador:
+This package includes a series of functions that give R users access to Metacritic's(https://www.metacritic.com) data.
+
+To install the most updated version from GitHub, type:
+
+## Installation
+
+```
+library(devtools)
+devtools::install_github("MatheusHALeal/rmetacritic")
+```
+
+## Usage
+
+First, you'll need docker on your pc.
+
+Pull the browser's image:
 ```
 docker pull selenium/standalone-firefox
 ```
-Rode a imagem:
+
+Run:
 ```
 sudo docker run -d -p 4445:4444 selenium/standalone-firefox
 ```
 
+### Example
+
+```
+best_2018_albums <- rmetacritic::get_best_albums_per_year("2018")
+```
