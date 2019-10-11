@@ -2,9 +2,9 @@
 
 This package includes a series of functions that give R users access to ["Metacritic's"](https://www.metacritic.com) data. These data are obtained by scraping their website.
 
-To install the most updated version from GitHub, type:
-
 ## Installation
+
+To install the most updated version from GitHub, type:
 
 ```
 library(devtools)
