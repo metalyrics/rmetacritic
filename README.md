@@ -1,6 +1,6 @@
 # rmetacritic
 
-This package includes a series of functions that give R users access to Metacritic's(https://www.metacritic.com) data.
+This package includes a series of functions that give R users access to Metacritic's(https://www.metacritic.com) data. These data are obtained by scraping their website.
 
 To install the most updated version from GitHub, type:
 
@@ -24,6 +24,7 @@ Run:
 ```
 sudo docker run -d -p 4445:4444 selenium/standalone-firefox
 ```
+Now you're ready to use the package.
 
 ### Example
 
