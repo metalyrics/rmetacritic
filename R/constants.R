@@ -1,2 +1,3 @@
 PORT <- 4445L
-URL_ALBUMS <- "https://www.metacritic.com/browse/albums/score/metascore/year/filtered?sort=desc&year_selected="
+WEBSITE_URL <- "https://www.metacritic.com/"
+ALBUMS_PER_YEAR_URL <- "browse/albums/score/metascore/year/filtered?sort=desc&year_selected="
