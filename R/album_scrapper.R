@@ -3,7 +3,6 @@ library(RSelenium)
 library(magrittr)
 library(stringr)
 library(stringi)
-library(rlist)
 
 #' @title Get best metacritic albums
 #' @param year Year of albums
@@ -83,6 +82,9 @@ scrape_album_critic_reviews <- function(remDr, name, artist) {
   return(result)
 }
 
+#' @title Create dataframe with all the album's critic reviews
+#' @param obj_scrap Object scrapper
+#' @return Dataframe with reviews
 create_album_reviews_df <- function(obj_scrap) {
   matrix <- matrix(matrix(unlist(obj_scrap), ncol=4, byrow=T))
   n_reviews <- length(obj_scrap)/4
