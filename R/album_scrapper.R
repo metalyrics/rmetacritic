@@ -1,7 +1,9 @@
 source("./R/constants.R")
 library(RSelenium)
-library(readr)
 library(magrittr)
+library(stringr)
+library(stringi)
+library(rlist)
 
 #' @title Get best metacritic albums
 #' @param year Year of albums
@@ -45,6 +47,67 @@ create_best_albums_df <- function(obj_scrap) {
 
   best_albums <- data.frame(name, metascore, artist_name, user_score, release_date)
   return(best_albums)
+}
+
+#' @title Get album critic reviews
+#' @param name Album's name
+#' @param artist Album's autor
+#' @return Dataframe containing all album's critic reviews
+#' @rdname get_album
+#' @export
+get_album_critic_reviews <- function(name, artist) {
+  remDr <- .open_remDr()
+  scrap <- scrape_album_critic_reviews(remDr, name, artist) %>%
+    create_album_reviews_df()
+  .close_remDr(remDr)
+  return(scrap)
+
+}
+
+#' @title Extract album reviews
+#' @param remDr Remote driver
+#' @param name Album's name
+#' @param name Album's autor
+#' @return Return list with object of scrapper
+scrape_album_critic_reviews <- function(remDr, name, artist) {
+
+  album_page_url <- paste0(WEBSITE_URL, MUSIC, .format_name(name), "/", .format_name(artist))
+  remDr$navigate(paste0(album_page_url, "/critic-reviews"))
+  element <- remDr$findElement(using = 'class', value = 'reviews')
+  elemtxt <- element$getElementText()
+
+  result <- strsplit(elemtxt[[1]],"\n")[[1]]
+  result[which(result %in% c("All this publication's reviews", "Read full review"))] <- NA
+  result <- result[-which(is.na(result))]
+
+  return(result)
+}
+
+create_album_reviews_df <- function(obj_scrap) {
+  matrix <- matrix(matrix(unlist(obj_scrap), ncol=4, byrow=T))
+  n_reviews <- length(obj_scrap)/4
+
+  publication <- matrix[1:n_reviews]
+  date <- matrix[(n_reviews+1):(n_reviews*2)]
+  score <- matrix[(n_reviews*2+1):(n_reviews*3)]
+  review <- matrix[(n_reviews*3+1):(n_reviews*4)]
+
+  reviews <- data.frame(publication, date, score, review)
+  return(reviews)
+}
+
+#' @title Format name to url's pattern
+#' @param name Name to format
+#' @return Formated name
+.format_name <- function(name) {
+  name <- name %>%
+    tolower() %>%
+    str_replace_all("!", "exclamationmark") %>%
+    str_replace_all("[:punct:]", "") %>%
+    str_replace_all("exclamationmark", "!") %>%
+    str_replace_all(" ", "-") %>%
+    stri_trans_general("Latin-ASCII")
+  return(name)
 }
 
 #' @title Open to connect to remote server
