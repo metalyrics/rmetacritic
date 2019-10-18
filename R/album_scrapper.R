@@ -72,13 +72,29 @@ scrape_album_critic_reviews <- function(remDr, name, artist) {
 
   album_page_url <- paste0(WEBSITE_URL, MUSIC, .format_name(name), "/", .format_name(artist))
   remDr$navigate(paste0(album_page_url, "/critic-reviews"))
+
+  element <- tryCatch(
+    {
+      remDr$findElement(using = 'class', value = 'reviews')
+    },
+    error = function(e){
+      warning("Albúm não encontrado")
+      return()
+    }
+  )
+
   element <- remDr$findElement(using = 'class', value = 'reviews')
   elemtxt <- element$getElementText()
+  ad <- remDr$findElement(using = 'id', value = 'native_top')
+  adTxt <- ad$getElementText()
 
+  adList <- strsplit(adTxt[[1]],"\n")[[1]]
   result <- strsplit(elemtxt[[1]],"\n")[[1]]
   result[which(result %in% c("All this publication's reviews", "Read full review"))] <- NA
   result <- result[-which(is.na(result))]
-
+  if (length(adList) > 0) {
+    result <- result[-which(result %in% adList)]
+  }
   return(result)
 }
 
