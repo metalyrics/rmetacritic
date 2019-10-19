@@ -15,6 +15,8 @@ addons:
 before_install:
   - docker pull selenium/standalone-firefox
   - sudo docker run -d -p 4445:4444 selenium/standalone-firefox
+install:
+  - R -e 'install.packages("RSelenium")'
 r_packages:
   - covr
   - RSelenium
