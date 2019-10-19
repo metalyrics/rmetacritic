@@ -1,5 +1,8 @@
 # rmetacritic
 
+[![Build Status](https://travis-ci.org/metalyrics/rmetacritic.svg?branch=master)](https://travis-ci.org/metalyrics/rmetacritic)
+
+
 This package includes a series of functions that give R users access to ["Metacritic's"](https://www.metacritic.com) data. These data are obtained by scraping their website.
 
 ## Installation
