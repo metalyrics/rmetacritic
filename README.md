@@ -11,7 +11,7 @@ To install the most updated version from GitHub, type:
 
 ```
 library(devtools)
-devtools::install_github("MatheusHALeal/rmetacritic")
+devtools::install_github("metalyrics/rmetacritic")
 ```
 
 ## Usage
