@@ -9,10 +9,6 @@ addons:
 
 r_packages:
   - covr
-  - RSelenium
-  - magrittr
-  - stringr
-  - stringi
 
 after_success:
   - Rscript -e 'library(covr); codecov()'
