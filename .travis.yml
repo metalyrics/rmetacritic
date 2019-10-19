@@ -1,14 +1,22 @@
+sudo: required
 language: R
+r:
+  - oldrel
+  - release
+  - devel
+services:
+  - docker
 cache:
   packages: true
-  
 addons:
   apt:
     packages:
       - libxml2-dev
-
+before_install:
+  - docker pull selenium/standalone-firefox
+  - sudo docker run -d -p 4445:4444 selenium/standalone-firefox
 r_packages:
   - covr
-
+  - RSelenium
 after_success:
   - Rscript -e 'library(covr); codecov()'
