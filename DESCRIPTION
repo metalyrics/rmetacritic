@@ -1,15 +1,13 @@
 Package: rmetacritic
 Type: Package
-Title: Metacritic's R scraper
+Title: Metacritic's R Scraper
 Version: 0.1.0
 Authors@R: c(
-    person("Matheus", "Leal", , "matheus.leal@ccc.ufcg.edu.br", c("aut", "cre")),
-    person("Ivyna", "Santino", , "ivyna.alves@ccc.ufcg.edu.br ", c("aut"))
+    person("Matheus", "Leal", email = "matheus.leal@ccc.ufcg.edu.br", role = c("aut", "cre")),
+    person("Ivyna", "Santino", email = "ivyna.alves@ccc.ufcg.edu.br ", role = c("aut"))
     )
-Maintainer: https://github.com/metalyrics
-URL: https://github.com/metalyrics/rmetacritic
-BugReports: https://github.com/metalyrics/rmetacritic/issues
 Description: This package includes a series of functions that give R users access to "Metacritic's" data. These data are obtained by scraping their website.
+Depends: R (>= 3.1.0)
 License: MIT
 Encoding: UTF-8
 LazyData: true
