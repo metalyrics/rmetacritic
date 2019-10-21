@@ -15,6 +15,7 @@ Imports:
     magrittr,
     stringi,
     stringr,
-    RSelenium
-Suggests: testthat,
+    RSelenium,
+    lubridate,
     dplyr
+Suggests: testthat
