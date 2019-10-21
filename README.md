@@ -31,6 +31,6 @@ Now you're ready to use the package.
 
 ### Example
 
-```
+```r
 best_2018_albums <- rmetacritic::get_best_albums_per_year("2018")
 ```
