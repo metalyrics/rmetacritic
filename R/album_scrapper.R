@@ -3,6 +3,8 @@ library(RSelenium)
 library(magrittr)
 library(stringr)
 library(stringi)
+library(lubridate)
+library(dplyr)
 
 #' @title Get best metacritic albums
 #' @param year Year of albums
@@ -44,7 +46,8 @@ create_best_albums_df <- function(obj_scrap) {
   user_score <- matrix[301:400]
   release_date <- matrix[401:500]
 
-  best_albums <- data.frame(name, metascore, artist_name, user_score, release_date)
+  best_albums <- data.frame(name, metascore, artist_name, user_score, release_date) %>%
+    mutate(release_date = mdy(release_date))
   return(best_albums)
 }
 
@@ -110,7 +113,8 @@ create_album_reviews_df <- function(obj_scrap) {
   score <- matrix[(n_reviews*2+1):(n_reviews*3)]
   review <- matrix[(n_reviews*3+1):(n_reviews*4)]
 
-  reviews <- data.frame(publication, date, score, review)
+  reviews <- data.frame(publication, date, score, review) %>%
+    mutate(date = mdy(date))
   return(reviews)
 }
 
