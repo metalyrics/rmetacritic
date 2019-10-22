@@ -8,12 +8,21 @@ library(dplyr)
 
 #' @title Get best metacritic albums
 #' @param year Year of albums
+#' @param by Filter
 #' @return Dataframe containing the best 100 albums of the year
 #' @rdname get_best_albums_per_year
 #' @export
-get_best_albums_per_year <- function(year) {
+get_best_albums_per_year <- function(year,
+                                     by = "metascore" #metascore, shared or discussed
+                                     ) {
   remDr <- .open_remDr()
-  scrap <- scrape_best_albums_per_year(remDr, year) %>%
+  url <- ALBUMS_PER_YEAR_BY_METASCORE_URL
+  if (by == "shared") {
+    url <- ALBUMS_PER_YEAR_BY_SHARES_URL
+  } else if (by == "discussion"){
+    url <- ALBUMS_PER_YEAR_BY_DISCUSSIONS_URL
+  }
+  scrap <- scrape_best_albums_per_year(remDr, year, url) %>%
     create_best_albums_df()
   .close_remDr(remDr)
   return(scrap)
@@ -24,8 +33,8 @@ get_best_albums_per_year <- function(year) {
 #' @param remDr Remote driver
 #' @param year Year of albums
 #' @return Return list with object of scrapper
-scrape_best_albums_per_year <- function(remDr, year) {
-  remDr$navigate(paste0(WEBSITE_URL, ALBUMS_PER_YEAR_URL, year))
+scrape_best_albums_per_year <- function(remDr, year, url) {
+  remDr$navigate(paste0(WEBSITE_URL, url, year))
 
   element <- remDr$findElement(using = 'class', value = 'list_products')
   elemtxt <- element$getElementText()
@@ -55,7 +64,7 @@ create_best_albums_df <- function(obj_scrap) {
 #' @param name Album's name
 #' @param artist Album's autor
 #' @return Dataframe containing all album's critic reviews
-#' @rdname get_album
+#' @rdname get_album_critic_reviews
 #' @export
 get_album_critic_reviews <- function(name, artist) {
   remDr <- .open_remDr()
@@ -135,7 +144,7 @@ create_album_reviews_df <- function(obj_scrap) {
 #' @title Open to connect to remote server
 #' @return remDr Object remote driver
 .open_remDr <- function() {
-  remDr <- remoteDriver(port = PORT)
+  remDr <- RSelenium::remoteDriver(port = PORT)
   remDr$open()
   return(remDr)
 }
