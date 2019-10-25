@@ -17,5 +17,6 @@ Imports:
     stringr,
     RSelenium,
     lubridate,
-    dplyr
+    dplyr,
+    testthat
 Suggests: testthat

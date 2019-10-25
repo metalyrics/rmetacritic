@@ -22,5 +22,6 @@ r_packages:
   - covr
   - lubridate
   - dplyr
+  - testthat
 after_success:
   - Rscript -e 'library(covr); codecov()'
