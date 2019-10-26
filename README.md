@@ -19,13 +19,13 @@ devtools::install_github("metalyrics/rmetacritic")
 First, you'll need docker on your pc.
 
 Pull the browser's image:
-```
-docker pull selenium/standalone-firefox
+```bash
+$ sudo docker pull selenium/standalone-firefox
 ```
 
 Run:
-```
-sudo docker run -d -p 4445:4444 selenium/standalone-firefox
+```bash
+$ sudo docker run -d -p 4445:4444 --shm-size 2g selenium/standalone-firefox
 ```
 Now you're ready to use the package.
 
