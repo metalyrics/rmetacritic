@@ -1,4 +1,4 @@
-# rmetacritic
+# rmetacritic <img src="https://imgur.com/wptrjlZ" width="160px" align="right" />
 
 [![Build Status](https://travis-ci.org/metalyrics/rmetacritic.svg?branch=master)](https://travis-ci.org/metalyrics/rmetacritic)
 
