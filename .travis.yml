@@ -22,5 +22,8 @@ r_packages:
   - covr
   - lubridate
   - dplyr
+  - magrittr
+  - stringr
+  - stringi
 after_success:
   - Rscript -e 'library(covr); codecov()'

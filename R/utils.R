@@ -1,7 +1,7 @@
 #' @title Format name to url's pattern
 #' @param name Name to format
 #' @return Formated name
-format_name <- function(name) {
+.format_name <- function(name) {
   name <- name %>%
     tolower() %>%
     str_replace_all("!", "exclamationmark") %>%
