@@ -3,7 +3,6 @@ language: R
 r_github_packages:
   - ropensci/RSelenium
 r:
-  - oldrel
   - release
   - devel
 services:
