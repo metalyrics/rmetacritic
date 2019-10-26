@@ -9,7 +9,7 @@ This package includes a series of functions that give R users access to ["Metacr
 
 To install the most updated version from GitHub, type:
 
-```
+```r
 library(devtools)
 devtools::install_github("metalyrics/rmetacritic")
 ```
