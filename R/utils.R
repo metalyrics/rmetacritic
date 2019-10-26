@@ -5,8 +5,10 @@
   name <- name %>%
     tolower() %>%
     str_replace_all("!", "exclamationmark") %>%
+    str_replace_all("-", "hyphen") %>%
     str_replace_all("[:punct:]", "") %>%
     str_replace_all("exclamationmark", "!") %>%
+    str_replace_all("hyphen", "-") %>%
     str_replace_all(" ", "-") %>%
     stri_trans_general("Latin-ASCII")
   return(name)

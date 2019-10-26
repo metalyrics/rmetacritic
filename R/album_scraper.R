@@ -2,7 +2,6 @@ source("./R/utils.R")
 source("./R/constants.R")
 source("./R/selenium_wrapper.R")
 library(RSelenium)
-library(magrittr)
 library(stringr)
 library(stringi)
 library(lubridate)
@@ -27,8 +26,9 @@ get_best_albums_per_year <- function(year,
   } else if (by == "discussion"){
     url <- ALBUMS_PER_YEAR_BY_DISCUSSIONS_URL
   }
-  scrap <- scrape_best_albums_per_year(remDr, year, url) %>%
-    create_best_albums_df()
+  print("Downloading best albums...")
+  scrap <- .scrape_best_albums_per_year(remDr, year, url) %>%
+    .create_best_albums_df()
   .close_remDr(remDr)
   return(scrap)
 
@@ -40,7 +40,7 @@ get_best_albums_per_year <- function(year,
 #' @return Return list with object of scrapper
 .scrape_best_albums_per_year <- function(remDr, year, url) {
   remDr$navigate(paste0(WEBSITE_URL, url, year))
-
+  Sys.sleep(3)
   element <- remDr$findElement(using = 'class', value = 'list_products')
   elemtxt <- element$getElementText()
 
@@ -75,8 +75,9 @@ get_best_albums_per_year <- function(year,
 #' @export
 get_album_critic_reviews <- function(name, artist) {
   remDr <- .open_remDr()
-  scrap <- scrape_album_critic_reviews(remDr, name, artist) %>%
-    create_album_reviews_df()
+  print("Downloading album reviews...")
+  scrap <- .scrape_album_critic_reviews(remDr, name, artist) %>%
+    .create_album_reviews_df()
   .close_remDr(remDr)
   return(scrap)
 
@@ -91,13 +92,13 @@ get_album_critic_reviews <- function(name, artist) {
 
   album_page_url <- paste0(WEBSITE_URL, MUSIC, .format_name(name), "/", .format_name(artist))
   remDr$navigate(paste0(album_page_url, "/critic-reviews"))
-
+  Sys.sleep(3)
   element <- tryCatch(
     {
       remDr$findElement(using = 'class', value = 'reviews')
     },
     error = function(e){
-      warning("Albúm não encontrado")
+      warning("Album not found")
       return()
     }
   )
