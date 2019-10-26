@@ -32,6 +32,7 @@ get_best_albums_per_year <- function(year,
 #' @title Extract best albums by year
 #' @param remDr Remote driver
 #' @param year Year of albums
+#' @param url Page url
 #' @return Return list with object of scrapper
 .scrape_best_albums_per_year <- function(remDr, year, url) {
   remDr$navigate(paste0(WEBSITE_URL, url, year))
