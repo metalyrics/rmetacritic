@@ -1,11 +1,6 @@
 source("./R/utils.R")
 source("./R/constants.R")
 source("./R/selenium_wrapper.R")
-library(RSelenium)
-library(stringr)
-library(stringi)
-library(lubridate)
-library(dplyr)
 
 #' @title Get best metacritic albums
 #' @param year Year of albums

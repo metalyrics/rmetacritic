@@ -2,4 +2,9 @@
 
 export(get_album_critic_reviews)
 export(get_best_albums_per_year)
+import(RSelenium)
+import(dplyr)
+importFrom(lubridate,mdy)
 importFrom(magrittr,"%>%")
+importFrom(stringi,stri_trans_general)
+importFrom(stringr,str_replace_all)

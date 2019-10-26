@@ -1,4 +1,9 @@
 #' @importFrom magrittr %>%
+#' @importFrom stringr str_replace_all
+#' @importFrom stringi stri_trans_general
+#' @importFrom lubridate mdy
+#' @import dplyr
+#' @import RSelenium
 
 PORT <- 4445L
 WEBSITE_URL <- "https://www.metacritic.com/"
