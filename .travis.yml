@@ -3,7 +3,6 @@ language: R
 r_github_packages:
   - ropensci/RSelenium
 r:
-  - oldrel
   - release
   - devel
 services:
@@ -22,5 +21,8 @@ r_packages:
   - covr
   - lubridate
   - dplyr
+  - magrittr
+  - stringr
+  - stringi
 after_success:
   - Rscript -e 'library(covr); codecov()'
