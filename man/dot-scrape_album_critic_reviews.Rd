@@ -4,10 +4,10 @@
 \alias{.scrape_album_critic_reviews}
 \title{Extract album reviews}
 \usage{
-.scrape_album_critic_reviews(remDr, name, artist)
+.scrape_album_critic_reviews(remote_driver, name, artist)
 }
 \arguments{
-\item{remDr}{Remote driver}
+\item{remote_driver}{Remote driver}
 
 \item{name}{Album's name}
 

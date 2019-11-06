@@ -1,13 +1,13 @@
 #' @title Open to connect to remote server
-#' @return remDr Object remote driver
-.open_remDr <- function() {
-  remDr <- RSelenium::remoteDriver(port = PORT)
-  remDr$open()
-  return(remDr)
+#' @return remote_driver Object remote driver
+.open_remote_driver <- function() {
+  remote_driver <- RSelenium::remoteDriver(port = PORT)
+  remote_driver$open()
+  return(remote_driver)
 }
 
 #' @title Close to connect remote server
-#' @param remDr Object remote driver
-.close_remDr <- function(remDr) {
-  remDr$close()
+#' @param remote_driver Object remote driver
+.close_remote_driver <- function(remote_driver) {
+  remote_driver$close()
 }

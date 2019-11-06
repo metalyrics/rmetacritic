@@ -4,12 +4,14 @@
 \alias{.scrape_best_albums_per_year}
 \title{Extract best albums by year}
 \usage{
-.scrape_best_albums_per_year(remDr, year, url)
+.scrape_best_albums_per_year(remote_driver, year, url)
 }
 \arguments{
-\item{remDr}{Remote driver}
+\item{remote_driver}{Remote driver}
 
 \item{year}{Year of albums}
+
+\item{url}{Page url}
 }
 \value{
 Return list with object of scrapper

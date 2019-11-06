@@ -14,33 +14,33 @@ source("./R/selenium_wrapper.R")
 get_best_albums_per_year <- function(year,
                                      by = "metascore" #metascore, shared or discussed
                                      ) {
-  remDr <- .open_remDr()
-  url <- ALBUMS_PER_YEAR_BY_METASCORE_URL
-  if (by == "shared") {
-    url <- ALBUMS_PER_YEAR_BY_SHARES_URL
-  } else if (by == "discussion"){
-    url <- ALBUMS_PER_YEAR_BY_DISCUSSIONS_URL
+  if (!(by %in% c("metascore", "shared", "discussion"))) {
+    warning("Invalid selector, returning by metascore...")
   }
+  remote_driver <- .open_remote_driver()
+  url <- case_when(by == "metascore" ~ ALBUMS_PER_YEAR_BY_METASCORE_URL,
+                   by == "shared" ~ ALBUMS_PER_YEAR_BY_SHARES_URL,
+                   by == "discussion" ~ ALBUMS_PER_YEAR_BY_DISCUSSIONS_URL,
+                   TRUE ~ ALBUMS_PER_YEAR_BY_METASCORE_URL)
   print("Downloading best albums...")
-  scrap <- .scrape_best_albums_per_year(remDr, year, url) %>%
+  scrap <- .scrape_best_albums_per_year(remote_driver, year, url) %>%
     .create_best_albums_df()
-  .close_remDr(remDr)
+  .close_remote_driver(remote_driver)
   return(scrap)
-
 }
 
 #' @title Extract best albums by year
-#' @param remDr Remote driver
+#' @param remote_driver Remote driver
 #' @param year Year of albums
 #' @param url Page url
 #' @return Return list with object of scrapper
-.scrape_best_albums_per_year <- function(remDr, year, url) {
-  remDr$navigate(paste0(WEBSITE_URL, url, year))
+.scrape_best_albums_per_year <- function(remote_driver, year, url) {
+  remote_driver$navigate(paste0(WEBSITE_URL, url, year))
   Sys.sleep(3)
-  element <- remDr$findElement(using = 'class', value = 'list_products')
-  elemtxt <- element$getElementText()
+  element <- remote_driver$findElement(using='class', value='list_products')
+  element_text <- element$getElementText()
 
-  result <- strsplit(elemtxt[[1]],"\n")
+  result <- strsplit(element_text[[1]],"\n")
   return(result)
 }
 
@@ -70,28 +70,26 @@ get_best_albums_per_year <- function(year,
 #' album_critics <- get_album_critic_reviews("Melodrama", "Lorde")
 #' @export
 get_album_critic_reviews <- function(name, artist) {
-  remDr <- .open_remDr()
+  remote_driver <- .open_remote_driver()
   print("Downloading album reviews...")
-  scrap <- .scrape_album_critic_reviews(remDr, name, artist) %>%
+  scrap <- .scrape_album_critic_reviews(remote_driver, name, artist) %>%
     .create_album_reviews_df()
-  .close_remDr(remDr)
+  .close_remote_driver(remote_driver)
   return(scrap)
-
 }
 
 #' @title Extract album reviews
-#' @param remDr Remote driver
+#' @param remote_driver Remote driver
 #' @param name Album's name
 #' @param name Album's autor
 #' @return Return list with object of scrapper
-.scrape_album_critic_reviews <- function(remDr, name, artist) {
-
-  album_page_url <- paste0(WEBSITE_URL, MUSIC, .format_name(name), "/", .format_name(artist))
-  remDr$navigate(paste0(album_page_url, "/critic-reviews"))
+.scrape_album_critic_reviews <- function(remote_driver, name, artist) {
+  album_page_url <- paste0(WEBSITE_URL, MUSIC, .format_name_to_url(name), "/", .format_name_to_url(artist))
+  remote_driver$navigate(paste0(album_page_url, "/critic-reviews"))
   Sys.sleep(3)
   element <- tryCatch(
     {
-      remDr$findElement(using = 'class', value = 'reviews')
+      remote_driver$findElement(using='class', value='reviews')
     },
     error = function(e){
       warning("Album not found")
@@ -99,17 +97,17 @@ get_album_critic_reviews <- function(name, artist) {
     }
   )
 
-  element <- remDr$findElement(using = 'class', value = 'reviews')
-  elemtxt <- element$getElementText()
-  ad <- remDr$findElement(using = 'id', value = 'native_top')
-  adTxt <- ad$getElementText()
+  element <- remote_driver$findElement(using='class', value='reviews')
+  element_text <- element$getElementText()
+  ad <- remote_driver$findElement(using='id', value='native_top')
+  ad_text <- ad$getElementText()
 
-  adList <- strsplit(adTxt[[1]],"\n")[[1]]
-  result <- strsplit(elemtxt[[1]],"\n")[[1]]
+  ad_list <- strsplit(ad_text[[1]],"\n")[[1]]
+  result <- strsplit(element_text[[1]],"\n")[[1]]
   result[which(result %in% c("All this publication's reviews", "Read full review"))] <- NA
   result <- result[-which(is.na(result))]
-  if (length(adList) > 0) {
-    result <- result[-which(result %in% adList)]
+  if (length(ad_list) > 0) {
+    result <- result[-which(result %in% ad_list)]
   }
   return(result)
 }
