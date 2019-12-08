@@ -5,8 +5,6 @@ r_github_packages:
 r:
   - release
   - devel
-services:
-  - docker
 cache:
   packages: true
 warnings_are_errors: false
@@ -14,10 +12,6 @@ addons:
   apt:
     packages:
       - libxml2-dev
-before_install:
-  - docker pull selenium/standalone-firefox
-  - docker run -d -p 4445:4444 selenium/standalone-firefox
-install: travis_wait 15 mvn install
 r_packages:
   - covr
   - lubridate
