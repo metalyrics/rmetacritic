@@ -87,6 +87,16 @@ get_album_critic_reviews <- function(name, artist) {
   album_page_url <- paste0(WEBSITE_URL, MUSIC, .format_name_to_url(name), "/", .format_name_to_url(artist))
   remote_driver$navigate(paste0(album_page_url, "/critic-reviews"))
   Sys.sleep(3)
+  element <- tryCatch(
+    {
+      remote_driver$findElement(using='class', value='reviews')
+    },
+    error = function(e){
+      warning("Album not found")
+      return()
+    }
+  )
+
   element <- remote_driver$findElement(using='class', value='reviews')
   element_text <- element$getElementText()
   ad <- remote_driver$findElement(using='id', value='native_top')
