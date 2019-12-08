@@ -7,9 +7,6 @@ source("./R/selenium_wrapper.R")
 #' @param by Selector
 #' @return Dataframe containing the best 100 albums of the year
 #' @rdname get_best_albums_per_year
-#' @examples
-#' best_2018_albums <- get_best_albums_per_year("2018")
-#' best_2018_albums <- get_best_albums_per_year("2018", by = "shared")
 #' @export
 get_best_albums_per_year <- function(year,
                                      by = "metascore" #metascore, shared or discussed
@@ -66,8 +63,6 @@ get_best_albums_per_year <- function(year,
 #' @param artist Album's autor
 #' @return Dataframe containing all album's critic reviews
 #' @rdname get_album_critic_reviews
-#' @examples
-#' album_critics <- get_album_critic_reviews("Melodrama", "Lorde")
 #' @export
 get_album_critic_reviews <- function(name, artist) {
   remote_driver <- .open_remote_driver()
