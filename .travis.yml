@@ -16,7 +16,7 @@ addons:
       - libxml2-dev
 before_install:
   - docker pull selenium/standalone-firefox
-  - docker run -d -p 4445:4444 selenium/standalone-firefox
+  - docker run -d -p 4445:4444 --shm-size 2g selenium/standalone-firefox
 r_packages:
   - covr
   - lubridate
