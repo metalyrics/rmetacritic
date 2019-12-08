@@ -7,6 +7,9 @@ source("./R/selenium_wrapper.R")
 #' @param by Selector
 #' @return Dataframe containing the best 100 albums of the year
 #' @rdname get_best_albums_per_year
+#' @examples
+#' best_2018_albums <- get_best_albums_per_year("2018")
+#' best_2018_albums <- get_best_albums_per_year("2018", by = "shared")
 #' @export
 get_best_albums_per_year <- function(year,
                                      by = "metascore" #metascore, shared or discussed
@@ -63,6 +66,8 @@ get_best_albums_per_year <- function(year,
 #' @param artist Album's autor
 #' @return Dataframe containing all album's critic reviews
 #' @rdname get_album_critic_reviews
+#' @examples
+#' album_critics <- get_album_critic_reviews("Melodrama", "Lorde")
 #' @export
 get_album_critic_reviews <- function(name, artist) {
   remote_driver <- .open_remote_driver()
@@ -82,16 +87,6 @@ get_album_critic_reviews <- function(name, artist) {
   album_page_url <- paste0(WEBSITE_URL, MUSIC, .format_name_to_url(name), "/", .format_name_to_url(artist))
   remote_driver$navigate(paste0(album_page_url, "/critic-reviews"))
   Sys.sleep(3)
-  element <- tryCatch(
-    {
-      remote_driver$findElement(using='class', value='reviews')
-    },
-    error = function(e){
-      warning("Album not found")
-      return()
-    }
-  )
-
   element <- remote_driver$findElement(using='class', value='reviews')
   element_text <- element$getElementText()
   ad <- remote_driver$findElement(using='id', value='native_top')
