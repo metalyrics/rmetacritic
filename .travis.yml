@@ -17,6 +17,7 @@ addons:
 before_install:
   - docker pull selenium/standalone-firefox
   - docker run -d -p 4445:4444 selenium/standalone-firefox
+install: travis_wait 15 mvn install
 r_packages:
   - covr
   - lubridate
